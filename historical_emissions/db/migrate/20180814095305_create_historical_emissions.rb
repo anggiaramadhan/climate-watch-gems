@@ -37,10 +37,10 @@ class CreateHistoricalEmissions < ActiveRecord::Migration[5.1]
     unless table_exists?(:historical_emissions_records)
       create_table :historical_emissions_records do |t|
         t.references :location, foreign_key: {on_delete: :cascade}, index: true
-        t.references :data_source, foreign_key: {on_delete: :cascade}, index: true
-        t.references :sector, foreign_key: {on_delete: :cascade}, index: true
-        t.references :gas, foreign_key: {on_delete: :cascade}, index: true
-        t.references :gwp, foreign_key: {on_delete: :cascade}, index: true
+        t.references :data_source, foreign_key: {to_table: :historical_emissions_data_sources, on_delete: :cascade}, index: true
+        t.references :sector, foreign_key: {to_table: :historical_emissions_sectors, on_delete: :cascade}, index: true
+        t.references :gas, foreign_key: {to_table: :historical_emissions_gases, on_delete: :cascade}, index: true
+        t.references :gwp, foreign_key: {to_table: :historical_emissions_gwps, on_delete: :cascade}, index: true
         t.jsonb :emissions
         t.timestamps
       end
