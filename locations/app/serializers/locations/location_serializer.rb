@@ -1,0 +1,17 @@
+module Locations
+  class LocationSerializer < ActiveModel::Serializer
+    attributes :iso_code3,
+               :pik_name,
+               :cait_name,
+               :ndcp_navigators_name,
+               :wri_standard_name,
+               :unfccc_group,
+               :centroid
+
+    has_many :members,
+             serializer: LocationSerializer,
+             if: -> { object.location_type != 'COUNTRY' }
+
+    attribute :topojson, if: -> { instance_options[:topojson] }
+  end
+end
