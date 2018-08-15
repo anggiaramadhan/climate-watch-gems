@@ -48,7 +48,12 @@ end
 
 `rake your_engine_name:install:migrations`
 
-- if the engine contains rake tasks (you get it now), TODO: ???
+- if the engine contains rake tasks (you get it now), everything I've read suggests tasks should be automatically visible to the host application. However, this does not seem to be the case out of the box, which is why tasks are explicitly loaded right now (both in engines' and application's Rakefiles):
+
+```
+require 'locations'
+Locations::Engine.load_tasks
+```
 
 ## How to extract existing code into an engine?
 
