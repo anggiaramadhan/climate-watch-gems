@@ -1,2 +1,2 @@
-# climate-watch-engines
-Climate Watch rails engines gems to reuse in country platforms
+# climate-watch-gems
+Climate Watch gems to reuse in country platforms.
