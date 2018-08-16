@@ -26,13 +26,13 @@ If the same TYPE of dataset needs to be incorporated in more than one Climate Wa
 
 We aim for all engines listed here to be handled very similarly, so these generic steps apply:
 
-- add it to the Gemfile. Currently we use this repository to serve gems (we don't publish to rubygems), which is why we need to use the `git:` parameter:
+- add it to the Gemfile. Currently we use this repository to serve gems (we don't publish to rubygems), which is why we need to use the `git:` parameter to point to the repo. Some gems have a different gem name than the actual name of the engine; that is because by having a shared prefix it is a bit easier to spot them among external gems in the Gemfile.
 
 ```
 git 'https://github.com/ClimateWatch-Vizzuality/climate-watch-gems.git' do
-  gem 'climate_watch_engine'
-  gem 'cw_locations'
-  gem 'cw_historical_emissions'
+  gem 'climate_watch_engine', '~> 1.0'
+  gem 'cw_locations', '~> 1.0', require: 'locations'
+  gem 'cw_historical_emissions', '~> 1.0', require: 'historical_emissions'
 end
 ```
 
@@ -48,12 +48,7 @@ end
 
 `rake your_engine_name:install:migrations`
 
-- if the engine contains rake tasks (you get it now), everything I've read suggests tasks should be automatically visible to the host application. However, this does not seem to be the case out of the box, which is why tasks are explicitly loaded right now (both in engines' and application's Rakefiles):
-
-```
-require 'locations'
-Locations::Engine.load_tasks
-```
+- if the engine contains rake tasks (you get it now), tasks are automatically visible to the host application.
 
 ## How to extract existing code into an engine?
 
@@ -61,9 +56,7 @@ Have a look at examples in this repository and recommended reading below.
 
 ## How to write a new engine?
 
-In the first place ask yourself if the functionality you're implementing needs to be reusable, because maybe there's no need to go the engine route. When unsure, you can always start by writing the code within the host application and extract later. In order to be able to do that easily:
-- namespace the code
-- avoid coupling
+In the first place ask yourself if the functionality you're implementing needs to be reusable, because maybe there's no need to go the engine route. When unsure, you can always extract later. In order to be able to do that easily, take care to namespace the code and avoid coupling.
 
 Useful tip: you can start working on an engine locally within the host application, and add it to the Gemfile using the `path:` parameter; this makes it easier to work with while under active development.
 
