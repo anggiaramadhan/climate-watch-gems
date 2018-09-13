@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.summary     = 'Climate Watch generic engine'
   s.description = 'Climate Watch generic engine'
 
-  s.required_ruby_version     = ">= 2.4.1"
+  s.required_ruby_version     = ">= 2.5.1"
   s.required_rubygems_version = ">= 1.8.11"
 
   s.license     = 'MIT'
