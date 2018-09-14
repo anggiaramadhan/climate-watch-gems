@@ -12,14 +12,18 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://www.climatewatchdata.org'
   s.summary     = 'Climate Watch -> GHG Historical Emissions.'
   s.description = 'Climate Watch -> GHG Historical Emissions.'
+
+  s.required_ruby_version     = ">= 2.5.1"
+  s.required_rubygems_version = ">= 1.8.11"
+
   s.license     = 'MIT'
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
   s.add_dependency 'active_model_serializers', '~> 0.10.0'
   s.add_dependency 'aws-sdk', '~> 2'
-  s.add_dependency 'climate_watch_engine', '~> 1.0.1'
-  s.add_dependency 'cw_locations', '~> 1.0.3'
+  s.add_dependency 'climate_watch_engine', '~> 1.1.0'
+  s.add_dependency 'cw_locations', '~> 1.1.0'
   s.add_dependency 'pg'
   s.add_dependency 'rails', '~> 5.1.5'
 

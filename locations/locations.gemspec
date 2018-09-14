@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.summary     = 'Climate Watch -> Locations'
   s.description = 'Climate Watch -> Locations'
 
-  s.required_ruby_version     = ">= 2.4.1"
+  s.required_ruby_version     = ">= 2.5.1"
   s.required_rubygems_version = ">= 1.8.11"
 
   s.license     = 'MIT'
@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'active_model_serializers', '~> 0.10.0'
   s.add_dependency 'aws-sdk', '~> 2'
-  s.add_dependency 'climate_watch_engine', '~> 1.0.1'
+  s.add_dependency 'climate_watch_engine', '~> 1.1.0'
   s.add_dependency 'rails', '~> 5.1.5'
   s.add_dependency 'pg'
 
