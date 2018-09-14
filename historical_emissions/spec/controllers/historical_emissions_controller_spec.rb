@@ -59,7 +59,7 @@ describe HistoricalEmissions::HistoricalEmissionsController, type: :controller d
         }
       )
       parsed_body = JSON.parse(response.body)
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(parsed_body.length).to eq(2)
     end
 
@@ -74,7 +74,7 @@ describe HistoricalEmissions::HistoricalEmissionsController, type: :controller d
         }
       )
       parsed_body = JSON.parse(response.body)
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(parsed_body.length).to eq(1)
       expect(parsed_body.first['gwp']).to eq('AR2')
     end
@@ -89,7 +89,7 @@ describe HistoricalEmissions::HistoricalEmissionsController, type: :controller d
         }
       )
       parsed_body = JSON.parse(response.body)
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(parsed_body.length).to eq(1)
       expect(parsed_body.first['gwp']).to eq('AR2')
     end
@@ -117,7 +117,7 @@ describe HistoricalEmissions::HistoricalEmissionsController, type: :controller d
     describe 'GET meta' do
       it 'returns endpoint metadata' do
         get :meta
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
 
@@ -134,7 +134,7 @@ describe HistoricalEmissions::HistoricalEmissionsController, type: :controller d
         }
         get :index, params: params
         parsed_body = JSON.parse(response.body)
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(parsed_body.length).to eq(3)
       end
     end
