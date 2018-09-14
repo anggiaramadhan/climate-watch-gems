@@ -22,10 +22,10 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'active_model_serializers', '~> 0.10.0'
   s.add_dependency 'aws-sdk', '~> 2'
-  s.add_dependency 'climate_watch_engine', '~> 1.1.0'
-  s.add_dependency 'cw_locations', '~> 1.1.0'
+  s.add_dependency 'climate_watch_engine', '~> 1.2.0'
+  s.add_dependency 'cw_locations', '~> 1.2.0'
   s.add_dependency 'pg'
-  s.add_dependency 'rails', '~> 5.1.5'
+  s.add_dependency 'rails', '~> 5.2.0'
 
   s.add_development_dependency 'factory_bot_rails'
   s.add_development_dependency 'rspec-collection_matchers'
