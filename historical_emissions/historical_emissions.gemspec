@@ -18,7 +18,8 @@ Gem::Specification.new do |s|
 
   s.license     = 'MIT'
 
-  s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
+  s.files = Dir['{app,config,db,lib}/**/*', 'spec/factories/**/*',
+                'MIT-LICENSE', 'Rakefile', 'README.md']
 
   s.add_dependency 'active_model_serializers', '~> 0.10.0'
   s.add_dependency 'aws-sdk', '~> 2'
