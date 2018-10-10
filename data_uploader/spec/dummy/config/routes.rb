@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  mount HistoricalEmissions::Engine => "/historical_emissions"
+  mount DataUploader::Engine => "/data_uploader"
 end

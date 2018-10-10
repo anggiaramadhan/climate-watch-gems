@@ -8,7 +8,7 @@ require 'rspec/rails'
 require 'rspec/collection_matchers'
 require 'factory_bot_rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-Dir[Locations::Engine.root.join('spec', 'factories', '*.rb')].each { |f| require f }
+Dir[DataUploader::Engine.root.join('spec', 'factories', '*.rb')].each { |f| require f }
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are

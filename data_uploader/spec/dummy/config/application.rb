@@ -3,7 +3,7 @@ require_relative 'boot'
 require 'rails/all'
 
 Bundler.require(*Rails.groups)
-require "historical_emissions"
+require "data_uploader"
 
 module Dummy
   class Application < Rails::Application
