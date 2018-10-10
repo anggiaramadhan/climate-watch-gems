@@ -5,18 +5,39 @@ require "data_uploader/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "data_uploader"
+  s.name        = 'data_uploader'
   s.version     = DataUploader::VERSION
-  s.authors     = ["Tiago Santos"]
-  s.email       = ["santos.tiago@gmail.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of DataUploader."
-  s.description = "TODO: Description of DataUploader."
-  s.license     = "MIT"
+  s.authors     = ['Tiago Santos']
+  s.email       = ['tiago.santos@vizzuality.com']
+  s.homepage    = 'https://www.climatewatchdata.org'
+  s.summary     = 'Climate Watch -> Data Uploader'
+  s.description = 'Climate Watch -> Data Uploader'
+  s.license     = 'MIT'
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+  s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE',
+                'Rakefile', 'README.md']
 
-  s.add_dependency "rails", "~> 5.2.0"
+  s.required_ruby_version     = '>= 2.5.1'
+  s.required_rubygems_version = '>= 1.8.11'
 
-  s.add_development_dependency "sqlite3"
+  # Add second shared database across country platforms
+  s.add_dependency 'secondbase'
+  # Add activeadmin for simple CMS
+  s.add_dependency 'activeadmin'
+  s.add_dependency 'devise'
+
+  s.add_dependency 'aws-sdk-rails', '~> 2'
+  s.add_dependency 'aws-sdk-s3', '~> 1'
+
+  s.add_dependency 'sidekiq'
+
+  #s.add_dependency 'climate_watch_engine', '~> 1.2.0'
+
+  s.add_dependency 'pg'
+
+  s.add_development_dependency 'factory_bot_rails'
+  s.add_development_dependency 'rspec-collection_matchers'
+  s.add_development_dependency 'rspec-rails'
+
+  s.test_files = Dir['spec/**/*']
 end

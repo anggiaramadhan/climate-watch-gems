@@ -1,0 +1,1 @@
+FILE_TO_IMPORT = ENV['DATA_UPLOADER_FILE'] || Rails.root + 'initializers/data_uploader.yaml'
