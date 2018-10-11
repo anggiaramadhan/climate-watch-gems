@@ -22,8 +22,8 @@ Gem::Specification.new do |s|
                 'MIT-LICENSE', 'Rakefile', 'README.md']
 
   s.add_dependency 'active_model_serializers', '~> 0.10.0'
-  s.add_dependency 'aws-sdk', '~> 2'
-  s.add_dependency 'climate_watch_engine', '~> 1.2.0'
+  s.add_dependency 'aws-sdk-s3', '~> 1'
+  s.add_dependency 'climate_watch_engine', '~> 1.3.0'
   s.add_dependency 'rails', '~> 5.2.0'
   s.add_dependency 'pg'
 
