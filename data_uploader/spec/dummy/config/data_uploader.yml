@@ -1,0 +1,8 @@
+platforms:
+  - name: test_platform
+    sections:
+      - name: test_section
+        importer: DummyImporter
+        datasets:
+          - test_dataset1
+          - test_dataset2

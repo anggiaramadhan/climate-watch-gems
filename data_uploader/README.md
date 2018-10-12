@@ -14,7 +14,9 @@ How to use my plugin.
 - `REDIS_SERVER`: _Redis Server._ Defined in the `.env` file (defaults to `redis://localhost:6379/0`)
 - `MAIL_SENDER`: _The email sender for the password recovery._ Defined in the `.env` file (defaults to `password@example.com`)
 
-# `data_uploader.yml` example
+# Configuration file
+
+`initializers/data_uploader.yaml` example
 
 ```
 platforms:
@@ -41,6 +43,10 @@ Or install it yourself as:
 ```bash
 $ gem install data_uploader
 ```
+
+Generate Active Admin controllers:
+
+`bundle exec rake data_uploader:generate`
 
 ## Contributing
 Contribution directions go here.
