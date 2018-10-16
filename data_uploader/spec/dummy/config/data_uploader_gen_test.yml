@@ -1,7 +1,7 @@
 platforms:
-  - name: test_platform
+  - name: gen_test_platform
     sections:
-      - name: test_section
+      - name: gen_test_section
         worker: DummyImportWorker
         datasets:
           - test_dataset1
