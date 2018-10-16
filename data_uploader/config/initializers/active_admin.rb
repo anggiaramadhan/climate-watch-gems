@@ -17,3 +17,5 @@ ActiveAdmin.setup do |config|
     end
   end
 end
+
+# TODO: https://github.com/activeadmin/activeadmin/issues/4294
