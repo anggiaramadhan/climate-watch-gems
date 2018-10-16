@@ -1,8 +1,8 @@
-ActiveAdmin.register_page '<%= "#{@platform.titleize} Platform #{@section.titleize}" %>' do
+ActiveAdmin.register_page '<%= "#{@platform.titleize} #{@section.titleize}" %>' do
   include DataUploader::SharedAdmin
 
   section_name = '<%= @section %>'
-  platform_name = '<%= @platform %>_platform'
+  platform_name = '<%= @platform %>'
 
   controller do
     def section_name
@@ -18,7 +18,7 @@ ActiveAdmin.register_page '<%= "#{@platform.titleize} Platform #{@section.titlei
     end
 
     def path
-      admin_<%= @platform %>_platform_<%= @section %>_path
+      admin_<%= @platform %>_<%= @section %>_path
     end
 
     def section
@@ -33,37 +33,37 @@ ActiveAdmin.register_page '<%= "#{@platform.titleize} Platform #{@section.titlei
     end
 
     def section_repository
-      @section_repository ||= SectionRepository.new
+      @section_repository ||= DataUploader::Repositories::SectionRepository.new
     end
 
     def dataset_repository
-      @dataset_repository ||= DatasetRepository.new
+      @dataset_repository ||= DataUploader::Repositories::DatasetRepository.new
     end
   end
 
   menu parent: '<%= @menu %>',
        label: section_name.split('_').map(&:capitalize).join(' '),
-       if: proc { Admin::Ability.can_view?(platform_name) }
+       if: proc { DataUploader::Helpers::Ability.can_view?(platform_name) }
 
   section_proc = proc {
-    SectionRepository.new.filter_by_section_and_platform(
+    DataUploader::Repositories::SectionRepository.new.filter_by_section_and_platform(
       section_name,
       platform_name
     )
   }
 
   datasets_proc = proc {
-    DatasetRepository.new.filter_by_section(section_proc.call.id)
+    DataUploader::Repositories::DatasetRepository.new.filter_by_section(section_proc.call.id)
   }
 
   content do
     render partial: 'data_uploader/admin/form_upload_datasets', locals: {
         datasets: datasets_proc.call,
-        upload_path: admin_<%= @platform %>_platform_<%= @section %>_upload_datafile_path,
-        download_path: admin_<%= @platform %>_platform_<%= @section %>_download_datafiles_path,
+        upload_path: admin_<%= @platform %>_<%= @section %>_upload_datafile_path,
+        download_path: admin_<%= @platform %>_<%= @section %>_download_datafiles_path,
         download_single_data_file_path:
-            admin_<%= @platform %>_platform_<%= @section %>_download_datafile_path,
-        import_path: admin_<%= @platform %>_platform_<%= @section %>_run_importer_path,
+            admin_<%= @platform %>_<%= @section %>_download_datafile_path,
+        import_path: admin_<%= @platform %>_<%= @section %>_run_importer_path,
         import_button_disabled: section_proc.call.worker_logs.started.any?,
         logs: section_proc.call.worker_logs.order(created_at: :desc)
     }

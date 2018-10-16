@@ -1,4 +1,4 @@
-module Admin
+module DataUploader
   module UseCase
     class Base
       attr_reader :repository, :s3_folder_path

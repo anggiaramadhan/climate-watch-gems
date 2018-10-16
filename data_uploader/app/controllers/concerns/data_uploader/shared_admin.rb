@@ -20,7 +20,7 @@ module DataUploader
           success: success
         }
 
-        Admin::UseCase::UploadDatafile.
+        DataUploader::UseCase::UploadDatafile.
           new(dataset_repository, s3_folder_path).
           call(params, callbacks)
       end
@@ -38,7 +38,7 @@ module DataUploader
           send_data_to_client: send_data_to_client
         }
 
-        Admin::UseCase::DownloadDatafile.
+        DataUploader::UseCase::DownloadDatafile.
           new(dataset_repository, s3_folder_path).
           call(params, callbacks)
       end
@@ -62,7 +62,7 @@ module DataUploader
           platform_name: platform_name
         }
 
-        Admin::UseCase::DownloadZippedDatafiles.
+        DataUploader::UseCase::DownloadZippedDatafiles.
           new(dataset_repository, s3_folder_path).
           call(attrs, callbacks)
       end

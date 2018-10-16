@@ -1,6 +1,6 @@
-module Admin
+module DataUploader
   module UseCase
-    class DownloadZippedDatafiles < Admin::UseCase::Base
+    class DownloadZippedDatafiles < DataUploader::UseCase::Base
       def call(attrs, callbacks)
         datasets = repository.filter_by_section_and_platform(
           attrs[:section_name],
@@ -9,7 +9,7 @@ module Admin
 
         datafiles = datasets.map(&:datafile).map(&:attachment).compact
 
-        validate_datafiles datafiles
+        validate_datafiles datafiles, callbacks
 
         zip_filename = "#{attrs[:platform_name]}-#{attrs[:section_name]}-datafiles"
 
@@ -28,7 +28,7 @@ module Admin
 
       private
 
-      def validate_datafiles(datafiles)
+      def validate_datafiles(datafiles, callbacks)
         datafiles.empty? && callbacks[:datafiles_empty].call
       end
 

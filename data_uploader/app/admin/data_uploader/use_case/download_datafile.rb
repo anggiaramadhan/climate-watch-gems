@@ -1,6 +1,6 @@
-module Admin
+module DataUploader
   module UseCase
-    class DownloadDatafile < Admin::UseCase::Base
+    class DownloadDatafile < DataUploader::UseCase::Base
       def call(params, callbacks)
         dataset = repository.find(params[:dataset_id])
         datafile = dataset.datafile.attachment

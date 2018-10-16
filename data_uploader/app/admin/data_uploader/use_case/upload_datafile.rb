@@ -1,9 +1,9 @@
-module Admin
+module DataUploader
   module UseCase
-    class UploadDatafile < Admin::UseCase::Base
+    class UploadDatafile < DataUploader::UseCase::Base
       def call(params, callbacks)
-        validate_if_file_chosen params
-        validate_content_type_against_csv params
+        validate_if_file_chosen params, callbacks
+        validate_content_type_against_csv params, callbacks
 
         dataset = repository.find(params[:dataset_id])
 
@@ -21,11 +21,11 @@ module Admin
 
       private
 
-      def validate_if_file_chosen(params)
+      def validate_if_file_chosen(params, callbacks)
         params[:datafile].nil? && callbacks[:datafile_not_chosen].call
       end
 
-      def validate_content_type_against_csv(params)
+      def validate_content_type_against_csv(params, callbacks)
         params[:datafile].content_type != 'text/csv' &&
           callbacks[:datafile_wrong_content_type].call
       end
@@ -34,7 +34,7 @@ module Admin
         expected_filename = "#{dataset.name}.csv"
 
         params[:datafile].original_filename =
-          Admin::CheckFilenamesMatch.call(
+          DataUploader::Helpers::CheckFilenamesMatch.call(
             params[:datafile].original_filename,
             expected_filename
           )
