@@ -5,7 +5,7 @@ require "data_uploader/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = 'data_uploader'
+  s.name        = 'cw_data_uploader'
   s.version     = DataUploader::VERSION
   s.authors     = ['Tiago Santos']
   s.email       = ['tiago.santos@vizzuality.com']
