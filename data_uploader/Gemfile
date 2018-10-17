@@ -14,6 +14,6 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 
-git 'https://github.com/ClimateWatch-Vizzuality/climate-watch-gems.git', branch: 'gem/data-uploader-develop' do
+git 'https://github.com/ClimateWatch-Vizzuality/climate-watch-gems.git', branch: 'feature/bump_version_with_upgraded_dependencies' do
   gem 'climate_watch_engine'
 end
