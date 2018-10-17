@@ -39,7 +39,7 @@ platforms:
   - name: global_country_platform
     sections:
       - name: new_adaptation
-        importer: ImportAdaptationWorker
+        worker: ImportAdaptationWorker
         datasets:
           - adaptation
           - adaptation_metadata

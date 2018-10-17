@@ -58,14 +58,14 @@ ActiveAdmin.register_page '<%= "#{@platform.titleize} #{@section.titleize}" %>' 
 
   content do
     render partial: 'data_uploader/admin/form_upload_datasets', locals: {
-        datasets: datasets_proc.call,
-        upload_path: admin_<%= @platform %>_<%= @section %>_upload_datafile_path,
-        download_path: admin_<%= @platform %>_<%= @section %>_download_datafiles_path,
-        download_single_data_file_path:
-            admin_<%= @platform %>_<%= @section %>_download_datafile_path,
-        import_path: admin_<%= @platform %>_<%= @section %>_run_importer_path,
-        import_button_disabled: section_proc.call.worker_logs.started.any?,
-        logs: section_proc.call.worker_logs.order(created_at: :desc)
+      datasets: datasets_proc.call,
+      upload_path: admin_<%= @platform %>_<%= @section %>_upload_datafile_path,
+      download_path: admin_<%= @platform %>_<%= @section %>_download_datafiles_path,
+      download_single_data_file_path:
+          admin_<%= @platform %>_<%= @section %>_download_datafile_path,
+      import_path: admin_<%= @platform %>_<%= @section %>_run_importer_path,
+      import_button_disabled: section_proc.call.worker_logs.started.any?,
+      logs: section_proc.call.worker_logs.order(created_at: :desc)
     }
   end
 end

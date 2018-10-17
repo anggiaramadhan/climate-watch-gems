@@ -16,7 +16,7 @@ module DataUploader
         platform['sections'].each do |section|
           @section = section['name']
           raise 'Section missing' unless @section
-          @worker = section['importer']
+          @worker = section['worker']
           next unless @worker.present?
           folder = Rails.root + 'app/admin/' + @platform
           FileUtils.mkdir_p(folder) unless File.directory?(folder)
