@@ -1,5 +1,5 @@
 require 'active_model_serializers'
-require 'aws-sdk'
+require 'aws-sdk-s3'
 require 'locations/engine'
 
 module HistoricalEmissions

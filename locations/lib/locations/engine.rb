@@ -1,5 +1,5 @@
 require 'active_model_serializers'
-require 'aws-sdk'
+require 'aws-sdk-s3'
 
 module Locations
   class Engine < ::Rails::Engine
