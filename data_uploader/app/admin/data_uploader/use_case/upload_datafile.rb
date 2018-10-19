@@ -11,7 +11,7 @@ module DataUploader
 
         dataset.datafile.attach(params[:datafile])
 
-        Admin::S3Uploader.call(
+        DataUploader::S3Uploader.call(
           dataset.datafile.attachment,
           s3_folder_path
         )

@@ -7,7 +7,7 @@ module DataUploader
 
         callbacks[:no_datafile].call unless datafile
 
-        Admin::S3Downloader.call(datafile, s3_folder_path)
+        DataUploader::S3Downloader.call(datafile, s3_folder_path)
 
         File.open("tmp_dir/#{datafile.filename}", 'r') do |f|
           callbacks[:send_data_to_client].call(f, datafile)

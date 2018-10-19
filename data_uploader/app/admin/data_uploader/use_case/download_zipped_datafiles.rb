@@ -13,7 +13,7 @@ module DataUploader
 
         zip_filename = "#{attrs[:platform_name]}-#{attrs[:section_name]}-datafiles"
 
-        Admin::ZipAndDownload.call(
+        DataUploader::ZipAndDownload.call(
           s3_folder_path,
           zip_filename,
           datafiles
