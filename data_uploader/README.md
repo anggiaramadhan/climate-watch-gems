@@ -17,7 +17,7 @@ If you want to use a checked out version of the gem locally add this instead:
 
 ```
 # for debugging
-gem 'cw_data_uploader', '~> 0.1.0', require: 'data_uploader', path: '../climate-watch-gems'
+gem 'cw_data_uploader', '~> 0.1.1', require: 'data_uploader', path: '../climate-watch-gems'
 ```
 
 And then execute:
