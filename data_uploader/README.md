@@ -49,6 +49,11 @@ Generate Active Admin controllers:
 
 `bundle exec rake data_uploader:generate`
 
+Install & run migrations:
+
+`bundle exec rake data_uploader:install:migrations`
+`bundle exec rake db:migrate`
+
 Populate database:
 
 `bundle exec rake db:admin_boilerplate_create`
