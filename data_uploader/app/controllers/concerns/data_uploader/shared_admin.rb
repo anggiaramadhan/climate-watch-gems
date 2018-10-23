@@ -6,13 +6,16 @@ module DataUploader
     # rubocop:disable Metrics/AbcSize
     def self.included(base)
       base.send(:page_action, :upload_datafile, method: :post) do
-        datafile_not_chosen = -> { return; }
-        datafile_wrong_content_type = lambda {
+        datafile_not_chosen = proc {
+          redirect_to path, alert: 'Upload failed: file missing'
+          return
+        }
+        datafile_wrong_content_type = proc {
           redirect_to path, alert: "Upload failed due to wrong file
             extension. File's extension should be .csv"
           return
         }
-        success = -> { redirect_to path, notice: 'Uploaded successfully' }
+        success = proc { redirect_to path, notice: 'Uploaded successfully' }
 
         callbacks = {
           datafile_not_chosen: datafile_not_chosen,
@@ -26,8 +29,8 @@ module DataUploader
       end
 
       base.send(:page_action, :download_datafile, method: :post) do
-        no_datafile = -> { return; }
-        send_data_to_client = lambda { |file, datafile|
+        no_datafile = proc { return; }
+        send_data_to_client = proc { |file, datafile|
           send_data file.read.force_encoding('BINARY'),
                     filename: datafile.filename.to_s,
                     disposition: 'attachment'
@@ -44,8 +47,8 @@ module DataUploader
       end
 
       base.send(:page_action, :download_datafiles, method: :post) do
-        datafiles_empty = -> { return; }
-        send_data_to_client = lambda { |file, zip_filename|
+        datafiles_empty = proc { return; }
+        send_data_to_client = proc { |file, zip_filename|
           send_data file.read.force_encoding('BINARY'),
                     filename: "#{zip_filename}.zip",
                     type: 'application/zip',
