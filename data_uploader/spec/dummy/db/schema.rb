@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_03_090648) do
+ActiveRecord::Schema.define(version: 2018_10_24_100559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,16 +18,19 @@ ActiveRecord::Schema.define(version: 2018_10_03_090648) do
   create_table "datasets", force: :cascade do |t|
     t.string "name"
     t.bigint "section_id"
+    t.index ["section_id", "name"], name: "datasets_section_id_name_key", unique: true
     t.index ["section_id"], name: "index_datasets_on_section_id"
   end
 
   create_table "platforms", force: :cascade do |t|
     t.string "name"
+    t.index ["name"], name: "platforms_name_key", unique: true
   end
 
   create_table "sections", force: :cascade do |t|
     t.string "name"
     t.bigint "platform_id"
+    t.index ["platform_id", "name"], name: "sections_platform_id_name_key", unique: true
     t.index ["platform_id"], name: "index_sections_on_platform_id"
   end
 
