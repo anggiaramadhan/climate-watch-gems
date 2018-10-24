@@ -54,9 +54,13 @@ Install & run migrations:
 `bundle exec rake data_uploader:install:migrations`
 `bundle exec rake db:migrate`
 
-Populate database:
+Populate database with boilerplate objects:
 
-`bundle exec rake db:admin_boilerplate_create`
+`bundle exec rake db:admin_boilerplate:create`
+
+Note: This task can be called multiple times without creating duplicates; it also deletes obsolete boilerplate objects in order to keep them in sync with `config/data_uploader.yml`. If you need to start again, to clear the boilerplate objects:
+
+`bundle exec rake db:admin_boilerplate:clear_all`
 
 Configure environment variables:
 
