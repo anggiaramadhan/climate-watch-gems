@@ -1,0 +1,7 @@
+platforms:
+  name: platform1
+  sections:
+    name: section1
+    importers:
+      name: importer1
+

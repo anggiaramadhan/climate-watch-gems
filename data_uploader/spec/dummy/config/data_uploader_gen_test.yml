@@ -1,0 +1,8 @@
+platforms:
+  - name: gen_test_platform
+    sections:
+      - name: gen_test_section
+        worker: DummyImportWorker
+        datasets:
+          - test_dataset1
+          - test_dataset2
