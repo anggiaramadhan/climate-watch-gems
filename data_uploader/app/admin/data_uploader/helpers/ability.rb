@@ -6,7 +6,7 @@ module DataUploader
       attr_reader :platform
 
       def initialize
-        @platform = ENV['APP_NAME']
+        @platform = DataUploader.app_name
       end
 
       class << self

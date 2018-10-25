@@ -32,6 +32,15 @@ $ gem install cw_data_uploader
 
 ## Setting up
 
+Create an initializer, setting the app name:
+
+```
+# DataUploader engine initializer
+require 'data_uploader'
+
+DataUploader.app_name = 'global_cw_platform'
+```
+
 Create a configuration file in config/data_uploader.yml with this structure:
 
 ```
