@@ -32,6 +32,15 @@ $ gem install cw_data_uploader
 
 ## Setting up
 
+Create an initializer, setting the app name:
+
+```
+# DataUploader engine initializer
+require 'data_uploader'
+
+DataUploader.app_name = 'global_cw_platform'
+```
+
 Create a configuration file in config/data_uploader.yml with this structure:
 
 ```
@@ -51,7 +60,13 @@ Generate Active Admin controllers:
 
 Install & run migrations:
 
+Active Storage:
+`rails active_storage:install`
+
+Data Uploader:
 `bundle exec rake data_uploader:install:migrations`
+
+Finally:
 `bundle exec rake db:migrate`
 
 Populate database with boilerplate objects:

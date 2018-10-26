@@ -1,5 +1,5 @@
 require "data_uploader/engine"
 
 module DataUploader
-  # Your code goes here...
+  mattr_accessor :app_name
 end
