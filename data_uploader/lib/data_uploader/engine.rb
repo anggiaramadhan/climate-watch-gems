@@ -3,7 +3,6 @@ require 'devise'
 require 'aws-sdk-rails'
 require 'aws-sdk-s3'
 require 'sidekiq'
-require 'secondbase'
 
 module DataUploader
   class Engine < ::Rails::Engine
