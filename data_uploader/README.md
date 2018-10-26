@@ -60,7 +60,13 @@ Generate Active Admin controllers:
 
 Install & run migrations:
 
+Active Storage:
+`rails active_storage:install`
+
+Data Uploader:
 `bundle exec rake data_uploader:install:migrations`
+
+Finally:
 `bundle exec rake db:migrate`
 
 Populate database with boilerplate objects:
