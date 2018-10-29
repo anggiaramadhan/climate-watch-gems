@@ -13,12 +13,3 @@ development:
 test:
   <<: *default
   database: cw_data_uploader_test
-
-secondbase:
-  development:
-    <<: *default
-    database: cw_data_uploader_shared_development
-    url: <%= ENV['SHARED_POSTGRES_URL'] %>
-  test:
-    <<: *default
-    database: cw_data_uploader_shared_test

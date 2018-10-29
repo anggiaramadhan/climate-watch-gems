@@ -24,7 +24,7 @@ RSpec.describe Admin::TestPlatformTestSectionController, type: :controller do
       )
     end
     it 'runs the importer' do
-      expect(DummyImportWorker).to receive(:perform_async)
+      expect(DataUploader::BaseImportWorker).to receive(:perform_async)
       post :run_importer
     end
   end

@@ -29,7 +29,7 @@ ActiveAdmin.register_page 'Test Platform Test Section' do
     end
 
     def import_worker
-      DummyImportWorker.perform_async(section.id)
+      DataUploader::BaseImportWorker.perform_async(section.id, 'DummyImporter')
     end
 
     def section_repository

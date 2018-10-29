@@ -20,8 +20,6 @@ Gem::Specification.new do |s|
   s.required_ruby_version     = '>= 2.5.1'
   s.required_rubygems_version = '>= 1.8.11'
 
-  # Add second shared database across country platforms
-  s.add_dependency 'secondbase'
   # Add activeadmin for simple CMS
   s.add_dependency 'activeadmin'
   s.add_dependency 'devise'

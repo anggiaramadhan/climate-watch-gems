@@ -29,7 +29,7 @@ ActiveAdmin.register_page '<%= "#{@platform.titleize} #{@section.titleize}" %>' 
     end
 
     def import_worker
-      <%= @worker %>.perform_async(section.id)
+      DataUploader::BaseImportWorker.perform_async(section.id, '<%= @importer %>')
     end
 
     def section_repository
