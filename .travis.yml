@@ -1,6 +1,6 @@
 env:
   global:
-    - CC_TEST_REPORTER_ID=010c7b37d1aaadcc84a23a3339f7c9a204c2117f7bd97a16de31017a38e5a758
+    - CC_TEST_REPORTER_ID=c4f24e94293203e5b662a4c20e1a872354f69511b0c7ba63f2980e5c5dbd25b2
 dist: trusty
 sudo: false
 language: ruby
@@ -8,23 +8,34 @@ rvm:
 - 2.5.1
 addons:
   postgresql: 9.6
-before_script:
+before_install:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
+before_script:
   - psql -c 'create database "cw_locations_test"' -U postgres
-  - cd locations; bundle exec rake db:migrate RAILS_ENV=test; cd ..
+  - cd locations; bundle install; bundle exec rake db:migrate RAILS_ENV=test; cd ..
   - psql -c 'create database "cw_historical_emissions_test"' -U postgres
-  - cd historical_emissions; bundle exec rake db:migrate RAILS_ENV=test; cd ..
+  - cd historical_emissions; bundle install; bundle exec rake db:migrate RAILS_ENV=test; cd ..
+  - psql -c 'create database "cw_data_uploader_test"' -U postgres
+  - cd data_uploader; bundle install; bundle exec rake db:migrate RAILS_ENV=test; cd ..
 script:
   - cd locations; bundle exec rspec; cd ..
   - cd historical_emissions; bundle exec rspec; cd ..
+  - cd data_uploader; bundle exec rspec; cd ..
   # Preferably you will run test-reporter on branch update events. But
   # if you setup travis to build PR updates only, you don't need to run
   # the line below
-  - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build -t simplecov --exit-code $TRAVIS_TEST_RESULT; fi
+  # - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build -t simplecov --exit-code $TRAVIS_TEST_RESULT; fi
   # In the case where travis is setup to build PR updates only,
   # uncomment the line below
   # - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+# Pipe the coverage data to Code Climate
+after_script:
+  - ./cc-test-reporter format-coverage -t simplecov -o coverage/codeclimate.locations.json locations/coverage/.resultset.json
+  - ./cc-test-reporter format-coverage -t simplecov -o coverage/codeclimate.historical_emissions.json historical_emissions/coverage/.resultset.json
+  - ./cc-test-reporter format-coverage -t simplecov -o coverage/codeclimate.data_uploader.json data_uploader/coverage/.resultset.json
+  - ./cc-test-reporter sum-coverage coverage/codeclimate.*.json -p 3 # Sum coverage parts into coverage/codeclimate.json
+  - if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then ./cc-test-reporter upload-coverage; fi # Upload coverage/codeclimate.json
 notifications:
   slack:
     secure: LhOZUX759yvGkDLBJaSHKnhVHFBb2HNBtIcBGumcLOd0sX8tTwyzUfTRuffg3zz5bc6HuOXl7e6wiVgt6Kv1bsGsAXhnSgF3zNv/IHlAHxsbxF+k0V/PNxm/G1aW+LsBrWF3uSEm86afvJcMvxtv7P/cQrGhXSg9I4i0bOVyjBilFB5CLPTFmjKpWdX6kRDezVQTM3XAAztin8hoF90kGNOtKCIud5KA73gHxAFGJQxL4am2QazZxOXRTZ+XLuHovQrpgyDc7uPh3DUuH+9R1H/nSp84Wr27kLVRzK3Pb5eFN+4DCdPGKAl4ap943b+DNr5qPVGS1kF7sZGJ11NC9f8uDTdECbI7PCXlLwo6+xtDogjUrATeBB9p2/5KTdKoTarXsk3Xgjz2APrtwW4WKysxf3DuU34j6Oh6ACWR1zgyFKSMqrU+724smsYALnXuozEGnqudslCitr6NUP4oHiL2JfFlFpoBvy1YZV7RarQVL1MJe+N9V1m5PoO56T/t4GoZdYw+12JrYNzoAeosvk/2/9L/hs+ZjMXhjJHPaeWqBVgQ2Ib1WJSVOcKkLe3SfasFQ3myb3PoWB0G4n9B5ABCcXg1V8pz4oPqvJh4B2X1L3NpOZ/NH8FQ1a7t4JiVmTqSrL6fTML+vd0kpkV/dfBwWaKC5FUsSlM1jCDoh8M=
