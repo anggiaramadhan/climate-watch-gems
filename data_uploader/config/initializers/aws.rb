@@ -1,6 +1,5 @@
 S3_BUCKET_URL = "https://s3-#{Rails.application.secrets.aws_region}.amazonaws.com/#{Rails.application.secrets.s3_bucket_name}"
 CW_FILES_PREFIX = ENV['CW_FILES_PREFIX'] || 'climate-watch-datasets/'
-CW_FILES_PREFIX_TEST = ENV['CW_FILES_PREFIX_TEST'] || 'test/'
 
 return if Rails.env.test?
 Aws.config.update({
