@@ -14,7 +14,7 @@ ActiveAdmin.register_page 'Test Platform Test Section' do
     end
 
     def s3_folder_path
-      "#{CW_FILES_PREFIX_TEST}test_section"
+      "#{CW_FILES_PREFIX}test_section"
     end
 
     def path

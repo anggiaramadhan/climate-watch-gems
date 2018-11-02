@@ -80,8 +80,7 @@ Note: This task can be called multiple times without creating duplicates; it als
 Configure environment variables:
 
 - `aws_region`: _The AWS region where the files to import are located._ Defined in the file `secrets.yml`
-- `CW_FILES_PREFIX`: _The location of the files to import._ Defined in the `.env` file (defaults to `climate-watch-datasets/`)
-- `CW_FILES_PREFIX_TEST`: defined in the `.env` file (defaults to `test/`)
+- `CW_FILES_PREFIX`: _The location of the files to import._ Defined in the `.env` file or aws initializer (defaults to `climate-watch-datasets/`)
 - `REDIS_SERVER`: _Redis Server._ Defined in the `.env` file (defaults to `redis://localhost:6379/0`)
 - `MAIL_SENDER`: _The email sender for the password recovery._ Defined in the `.env` file (defaults to `password@example.com`)
 
