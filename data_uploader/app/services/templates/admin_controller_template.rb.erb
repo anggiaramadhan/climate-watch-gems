@@ -14,7 +14,7 @@ ActiveAdmin.register_page '<%= "#{@platform.titleize} #{@section.titleize}" %>' 
     end
 
     def s3_folder_path
-      "#{CW_FILES_PREFIX_TEST}<%= @section %>"
+      "#{CW_FILES_PREFIX}<%= @section %>"
     end
 
     def path
