@@ -49,7 +49,7 @@
       <tbody>
         <% logs.each do |log| %>
           <tr>
-            <td><%= log.created_at %>
+            <td><%= log.created_at.in_time_zone("Eastern Time (US & Canada)") %> (EST)
             <td><%= log.state %>
             <td><%= log.error %>
           </tr>
