@@ -1,3 +1,3 @@
 module ClimateWatchEngine
-  VERSION = '1.3.1'.freeze
+  VERSION = '1.3.2'.freeze
 end
