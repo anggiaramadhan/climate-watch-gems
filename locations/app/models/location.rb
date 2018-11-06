@@ -1,4 +1,5 @@
 class Location < ApplicationRecord
+  LOCATION_TYPES = %w(COUNTRY REGION GROUP PROVINCE)
   has_many :location_members, dependent: :destroy
   has_many :members, through: :location_members
 
@@ -8,7 +9,7 @@ class Location < ApplicationRecord
   }
   validates :wri_standard_name, presence: true, if: proc { |l| l.show_in_cw? }
   validates :location_type, presence: true, inclusion: {
-    in: %w(COUNTRY REGION GROUP PROVINCE)
+    in: LOCATION_TYPES
   }
 
   before_validation :populate_wri_standard_name, if: proc { |l|
