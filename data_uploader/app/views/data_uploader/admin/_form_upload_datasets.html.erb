@@ -39,6 +39,7 @@
     <%= submit_tag 'Run Importers', disabled: import_button_disabled, data: { confirm: 'Are you sure?', disable_with: 'Importing...' } %>
   <% end %>
   <% if logs.any? %>
+    <h2>History of imports</h2>
     <table class="index_table logs_table">
       <thead>
         <th class="col" style="width:10%">Created at</th>
