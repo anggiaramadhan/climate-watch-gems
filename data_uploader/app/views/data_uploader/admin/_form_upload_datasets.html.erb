@@ -36,7 +36,8 @@
     <%= submit_tag 'Download data files' %>
   <% end %>
   <%= form_tag(import_path, class: 'importer-button') do %>
-    <%= submit_tag 'Run Importers', disabled: import_button_disabled, data: { confirm: 'Are you sure?', disable_with: 'Importing...' } %>
+    <%= submit_tag 'Run Importers', disabled: import_button_disabled,
+      data: { confirm: 'Running the importers will replace existing data. Are you sure you want to proceed?', disable_with: 'Importing...' } %>
   <% end %>
   <% if logs.any? %>
     <h2>History of imports</h2>
