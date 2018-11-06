@@ -10,6 +10,8 @@ module HistoricalEmissions
   end
 
   class HistoricalEmissionsController < ApplicationController
+    include ActionController::MimeResponds
+
     def index
       unless valid_params(params)
         render json: {
@@ -19,9 +21,23 @@ module HistoricalEmissions
         }, status: :bad_request and return
       end
 
-      render json: ::HistoricalEmissions::Record.find_by_params(params),
-             each_serializer: ::HistoricalEmissions::RecordSerializer,
-             params: params
+      respond_to do |format|
+        format.json do
+          values = ::HistoricalEmissions::Record.find_by_params(params)
+          render json: values,
+                 each_serializer: ::HistoricalEmissions::RecordSerializer,
+                 params: params
+        end
+
+        format.csv do
+          filter = HistoricalEmissions::Filter.new({})
+          csv_content = HistoricalEmissions::CsvContent.new(filter).call
+          send_data csv_content,
+                    type: 'text/csv',
+                    filename: 'historical_emissions.csv',
+                    disposition: 'attachment'
+        end
+      end
     end
 
     def meta

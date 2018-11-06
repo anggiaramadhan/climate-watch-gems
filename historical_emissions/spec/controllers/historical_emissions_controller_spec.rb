@@ -56,7 +56,8 @@ describe HistoricalEmissions::HistoricalEmissionsController, type: :controller d
           source: data_source.id,
           gas: gas.id,
           location: location.iso_code3
-        }
+        },
+        format: :json
       )
       parsed_body = JSON.parse(response.body)
       expect(response).to be_successful
@@ -71,7 +72,8 @@ describe HistoricalEmissions::HistoricalEmissionsController, type: :controller d
           gas: gas.id,
           location: location.iso_code3,
           gwp: gwp2.id
-        }
+        },
+        format: :json
       )
       parsed_body = JSON.parse(response.body)
       expect(response).to be_successful
@@ -86,12 +88,20 @@ describe HistoricalEmissions::HistoricalEmissionsController, type: :controller d
           source: data_source2.id,
           gas: gas.id,
           location: location.iso_code3
-        }
+        },
+        format: :json
       )
       parsed_body = JSON.parse(response.body)
       expect(response).to be_successful
       expect(parsed_body.length).to eq(1)
       expect(parsed_body.first['gwp']).to eq('AR2')
+    end
+
+    it 'responds to csv' do
+      get(:index, format: 'csv')
+      expect(response.content_type).to eq('text/csv')
+      expect(response.headers['Content-Disposition']).
+        to eq('attachment; filename="historical_emissions.csv"')
     end
   end
 
