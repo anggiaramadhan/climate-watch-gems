@@ -5,13 +5,13 @@ module DataUploader
 
     sidekiq_options queue: :database, retry: false
 
-    def perform(section_id, importer_class_name)
+    def perform(section_id, importer_class_name, admin)
       section = DataUploader::Section.find(section_id)
       importer_class = importer_class_name.constantize
 
       return if job_in_progress?(section)
 
-      log_job(jid, section_id) { import_data(importer_class) }
+      log_job(jid, section_id, admin) { import_data(importer_class) }
     end
 
     private

@@ -46,6 +46,7 @@
         <th class="col" style="width:10%">Created at</th>
         <th class="col" style="width:10%">Status</th>
         <th class="col" style="width:10%">Error</th>
+        <th class="col" style="width:10%">Admin user</th>
       </thead>
       <tbody>
         <% logs.each do |log| %>
@@ -53,6 +54,7 @@
             <td><%= log.created_at.in_time_zone("Eastern Time (US & Canada)") %> (EST)
             <td><%= log.state %>
             <td><%= log.error %>
+            <td><%= log.user_email %>
           </tr>
         <% end %>
       </tbody>
