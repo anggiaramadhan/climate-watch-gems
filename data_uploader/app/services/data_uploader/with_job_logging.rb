@@ -1,7 +1,7 @@
 module DataUploader
   module WithJobLogging
-    def log_job(jid, section_id)
-      create_job_log(jid, section_id) unless job_log(jid)
+    def log_job(jid, section_id, admin)
+      create_job_log(jid, section_id, admin) unless job_log(jid)
       yield
       mark_job_as_finished(jid)
     rescue StandardError => e
@@ -14,11 +14,12 @@ module DataUploader
       mark_job_as_failed(jid)
     end
 
-    def create_job_log(jid, section_id)
+    def create_job_log(jid, section_id, admin)
       DataUploader::WorkerLog.create(
         jid: jid,
         state: 'started',
-        section_id: section_id
+        section_id: section_id,
+        user_email: admin
       )
     end
 
