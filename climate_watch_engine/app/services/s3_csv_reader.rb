@@ -8,9 +8,10 @@ module S3CSVReader
   end
 
   # @param header_converter [Symbol] default :symbol
-  def self.read(filename, header_converter = nil)
+  def self.read(filename, header_converters = :symbol)
     bucket_name = ClimateWatchEngine.s3_bucket_name
     s3 = Aws::S3::Client.new
+
     begin
       file = s3.get_object(bucket: bucket_name, key: filename)
     rescue Aws::S3::Errors::NoSuchKey
@@ -18,13 +19,14 @@ module S3CSVReader
       return
     end
 
+    hard_space_converter = ->(f) { f&.gsub(160.chr('UTF-8'), 32.chr) }
     strip_converter = ->(field, _) { field&.strip }
 
     CSV.parse(
       file.body.read,
       headers: true,
-      converters: [strip_converter],
-      header_converters: header_converter || :symbol
+      converters: [hard_space_converter, strip_converter],
+      header_converters: header_converters
     )
   end
 end
