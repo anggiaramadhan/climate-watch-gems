@@ -8,7 +8,7 @@ module S3CSVReader
   end
 
   # @param header_converter [Symbol] default :symbol
-  def self.read(filename, header_converters = :symbol)
+  def self.read(filename, header_converters: :symbol)
     bucket_name = ClimateWatchEngine.s3_bucket_name
     s3 = Aws::S3::Client.new
 
