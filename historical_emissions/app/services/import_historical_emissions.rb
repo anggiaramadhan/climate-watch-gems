@@ -39,7 +39,7 @@ class ImportHistoricalEmissions
 
   def emissions(row)
     row.headers.grep(/\d{4}/).map do |year|
-      {year: year.to_s.to_i, value: row[year]&.to_f}
+      {year: year.to_s.to_i, value: row[year]&.delete(',')&.to_f}
     end
   end
 
