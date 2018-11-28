@@ -1,24 +1,41 @@
 require 'csv'
 
-module S3CSVReader
-  def self.strip(hash)
-    hash.map do |first, second|
-      [first, second.strip]
-    end.to_h
+class S3CSVReader
+  include Singleton
+
+  FileLoadingError = Class.new(StandardError)
+
+  attr_reader :s3, :bucket
+
+  def initialize
+    @s3 = Aws::S3::Client.new
+    @bucket = ClimateWatchEngine.s3_bucket_name
+  end
+
+  class << self
+    delegate :read, to: :instance
   end
 
   # @param header_converter [Symbol] default :symbol
-  def self.read(filename, header_converters: :symbol)
-    bucket_name = ClimateWatchEngine.s3_bucket_name
-    s3 = Aws::S3::Client.new
+  def read(filename, header_converters: :symbol)
+    file = get_file(filename)
 
-    begin
-      file = s3.get_object(bucket: bucket_name, key: filename)
-    rescue Aws::S3::Errors::NoSuchKey
-      Rails.logger.error "File #{filename} not found in #{bucket_name}"
-      return
-    end
+    return if file.nil?
 
+    parse(file, header_converters)
+  rescue StandardError => e
+    raise FileLoadingError, "Error while loading #{File.basename(filename)}: #{e}"
+  end
+
+  private
+
+  def get_file(filename)
+    s3.get_object(bucket: bucket, key: filename)
+  rescue Aws::S3::Errors::NoSuchKey
+    Rails.logger.error "File #{filename} not found in #{bucket_name}"
+  end
+
+  def parse(file, header_converters)
     hard_space_converter = ->(f) { f&.gsub(160.chr('UTF-8'), 32.chr) }
     strip_converter = ->(field, _) { field&.strip }
 
