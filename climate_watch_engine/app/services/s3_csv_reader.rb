@@ -5,13 +5,6 @@ class S3CSVReader
 
   FileLoadingError = Class.new(StandardError)
 
-  attr_reader :s3, :bucket
-
-  def initialize
-    @s3 = Aws::S3::Client.new
-    @bucket = ClimateWatchEngine.s3_bucket_name
-  end
-
   class << self
     delegate :read, to: :instance
   end
@@ -30,9 +23,11 @@ class S3CSVReader
   private
 
   def get_file(filename)
+    s3 = Aws::S3::Client.new
+    bucket = ClimateWatchEngine.s3_bucket_name
     s3.get_object(bucket: bucket, key: filename)
   rescue Aws::S3::Errors::NoSuchKey
-    Rails.logger.error "File #{filename} not found in #{bucket_name}"
+    Rails.logger.error "File #{filename} not found in #{bucket}"
   end
 
   def parse(file, header_converters)
