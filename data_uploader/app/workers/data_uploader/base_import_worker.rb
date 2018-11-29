@@ -7,17 +7,18 @@ module DataUploader
 
     def perform(section_id, importer_class_name, admin)
       section = DataUploader::Section.find(section_id)
-      importer_class = importer_class_name.constantize
+      importer = importer_class_name.constantize.new
 
       return if job_in_progress?(section)
 
-      log_job(jid, section_id, admin) { import_data(importer_class) }
+      log_job(jid, section_id, admin) { import_data(importer) }
     end
 
     private
 
-    def import_data(importer_class)
-      importer_class.new.call
+    def import_data(importer)
+      importer.call
+      importer
     end
 
     def job_in_progress?(section)
