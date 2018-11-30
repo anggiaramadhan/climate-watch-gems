@@ -69,9 +69,12 @@
             <td><%= log.created_at.in_time_zone("Eastern Time (US & Canada)") %> (EST)</td>
             <td><%= log.state %></td>
             <td>
-              <% if log.details.dig('errors')&.any? %>
+              <% if log.details_errors.any? %>
                 <strong>Errors: </strong>
-                <%= log.details.dig('errors')&.map {|e| e['msg']}.join('; ') %>
+                <%= log.details_errors.first['msg'] %>
+                <% if log.details_errors.length > 1 %>
+                  <%= link_to 'Show more...', '#', class: 'open-simple-modal', data: { modal_text: simple_format(log.details_errors_messages), modal_title: 'Job Details' } %>
+                <% end %>
               <% end %>
             </td>
             <td><%= log.user_email %></td>

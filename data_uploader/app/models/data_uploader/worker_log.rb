@@ -9,5 +9,13 @@ module DataUploader
       failed: 3,
       dead: 4
     }
+
+    def details_errors
+      details&.dig('errors') || []
+    end
+
+    def details_errors_messages
+      details_errors.map { |e| e['msg'] }.join('<br>').html_safe
+    end
   end
 end
