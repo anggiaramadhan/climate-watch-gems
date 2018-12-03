@@ -1,8 +1,24 @@
 module ClimateWatchEngine
   module CSVImporter
+    extend ActiveSupport::Concern
+
+    class_methods do
+      def headers(*attrs)
+        define_method(:headers) do
+          if attrs.any? { |a| a.is_a?(Hash) }
+            attrs.reduce({}, :merge)
+          else
+            attrs
+          end
+        end
+      end
+    end
+
     def valid_headers?(csv, filename, headers)
       (headers - csv.headers).each do |value|
-        add_error(:missing_header, msg: "#{File.basename(filename)}: Missing header #{value}", row: 1)
+        msg = "#{File.basename(filename)}: Missing header #{value}"
+        STDERR.puts msg
+        add_error(:missing_header, msg: msg, row: 1)
       end.empty?
     end
 
@@ -29,12 +45,7 @@ module ClimateWatchEngine
       filename = File.basename(filepath)
       msg = "#{filename}: Error importing row #{row_index}: #{invalid}"
       STDERR.puts msg
-      add_error(
-        :invalid_row,
-        msg: msg,
-        row: row_index,
-        filename: filename
-      )
+      add_error(:invalid_row, msg: msg, row: row_index, filename: filename)
     end
   end
 end

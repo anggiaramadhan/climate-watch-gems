@@ -40,6 +40,6 @@ class S3CSVReader
       skip_blanks: true,
       converters: [hard_space_converter, strip_converter],
       header_converters: header_converters
-    )
+    ).delete_if { |row| row.to_hash.values.all?(&:nil?) }
   end
 end

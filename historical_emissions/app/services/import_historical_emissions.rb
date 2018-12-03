@@ -1,10 +1,8 @@
 class ImportHistoricalEmissions
   include ClimateWatchEngine::CSVImporter
 
-  HEADERS = {
-    metadata: [:source, :sector, :subsectorof],
-    records: [:country, :source, :sector, :gas, :gwp]
-  }.freeze
+  headers metadata: [:source, :sector, :subsectorof],
+          records: [:country, :source, :sector, :gas, :gwp]
 
   def call
     return unless all_headers_valid?
@@ -46,10 +44,10 @@ class ImportHistoricalEmissions
 
   def all_headers_valid?
     [
-      valid_headers?(meta_sectors_csv, HistoricalEmissions.meta_sectors_filepath, HEADERS[:metadata]),
-      valid_headers?(data_cait_csv, HistoricalEmissions.data_cait_filepath, HEADERS[:records]),
-      valid_headers?(data_pik_csv, HistoricalEmissions.data_pik_filepath, HEADERS[:records]),
-      valid_headers?(data_unfccc_csv, HistoricalEmissions.data_unfccc_filepath, HEADERS[:records])
+      valid_headers?(meta_sectors_csv, HistoricalEmissions.meta_sectors_filepath, headers[:metadata]),
+      valid_headers?(data_cait_csv, HistoricalEmissions.data_cait_filepath, headers[:records]),
+      valid_headers?(data_pik_csv, HistoricalEmissions.data_pik_filepath, headers[:records]),
+      valid_headers?(data_unfccc_csv, HistoricalEmissions.data_unfccc_filepath, headers[:records])
     ].all?(true)
   end
 
