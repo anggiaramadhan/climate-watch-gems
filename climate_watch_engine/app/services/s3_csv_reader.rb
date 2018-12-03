@@ -37,6 +37,7 @@ class S3CSVReader
     CSV.parse(
       file.body.read,
       headers: true,
+      skip_blanks: true,
       converters: [hard_space_converter, strip_converter],
       header_converters: header_converters
     )

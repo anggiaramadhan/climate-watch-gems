@@ -16,23 +16,24 @@ module ClimateWatchEngine
     end
 
     def import_each_with_logging(csv, filename)
-      csv.each.with_index(1) do |row, row_index|
+      csv.each.with_index(2) do |row, row_index|
         with_logging(filename, row_index) do
           yield row
         end
       end
     end
 
-    def with_logging(filename, row_index)
+    def with_logging(filepath, row_index)
       yield
     rescue ActiveRecord::RecordInvalid => invalid
+      filename = File.basename(filepath)
       msg = "#{filename}: Error importing row #{row_index}: #{invalid}"
       STDERR.puts msg
       add_error(
         :invalid_row,
         msg: msg,
         row: row_index,
-        filename: File.basename(filename)
+        filename: filename
       )
     end
   end

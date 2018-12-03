@@ -1,10 +1,21 @@
 class ImportHistoricalEmissions
+  include ClimateWatchEngine::CSVImporter
+
+  HEADERS = {
+    metadata: [:source, :sector, :subsectorof],
+    records: [:country, :source, :sector, :gas, :gwp]
+  }.freeze
+
   def call
-    cleanup
-    import_sectors(S3CSVReader.read(HistoricalEmissions.meta_sectors_filepath))
-    import_records(S3CSVReader.read(HistoricalEmissions.data_cait_filepath))
-    import_records(S3CSVReader.read(HistoricalEmissions.data_pik_filepath))
-    import_records(S3CSVReader.read(HistoricalEmissions.data_unfccc_filepath))
+    return unless all_headers_valid?
+
+    ActiveRecord::Base.transaction do
+      cleanup
+      import_sectors(meta_sectors_csv, HistoricalEmissions.meta_sectors_filepath)
+      import_records(data_cait_csv, HistoricalEmissions.data_cait_filepath)
+      import_records(data_pik_csv, HistoricalEmissions.data_pik_filepath)
+      import_records(data_unfccc_csv, HistoricalEmissions.data_unfccc_filepath)
+    end
   end
 
   private
@@ -15,6 +26,31 @@ class ImportHistoricalEmissions
     HistoricalEmissions::Gas.delete_all
     HistoricalEmissions::Record.delete_all
     HistoricalEmissions::Record.delete_all
+  end
+
+  def meta_sectors_csv
+    @meta_sectors_csv ||= S3CSVReader.read(HistoricalEmissions.meta_sectors_filepath)
+  end
+
+  def data_cait_csv
+    @data_cait_csv ||= S3CSVReader.read(HistoricalEmissions.data_cait_filepath)
+  end
+
+  def data_pik_csv
+    @data_pik_csv ||= S3CSVReader.read(HistoricalEmissions.data_pik_filepath)
+  end
+
+  def data_unfccc_csv
+    @data_unfccc_csv ||= S3CSVReader.read(HistoricalEmissions.data_unfccc_filepath)
+  end
+
+  def all_headers_valid?
+    [
+      valid_headers?(meta_sectors_csv, HistoricalEmissions.meta_sectors_filepath, HEADERS[:metadata]),
+      valid_headers?(data_cait_csv, HistoricalEmissions.data_cait_filepath, HEADERS[:records]),
+      valid_headers?(data_pik_csv, HistoricalEmissions.data_pik_filepath, HEADERS[:records]),
+      valid_headers?(data_unfccc_csv, HistoricalEmissions.data_unfccc_filepath, HEADERS[:records])
+    ].all?(true)
   end
 
   def sector_attributes(row)
@@ -29,8 +65,8 @@ class ImportHistoricalEmissions
     }
   end
 
-  def import_sectors(content)
-    content.each do |row|
+  def import_sectors(content, filepath)
+    import_each_with_logging(content, filepath) do |row|
       next if HistoricalEmissions::Sector.find_by(name: row[:sector])
       sector = sector_attributes(row)
       HistoricalEmissions::Sector.create!(sector)
@@ -54,13 +90,9 @@ class ImportHistoricalEmissions
     }
   end
 
-  def import_records(content)
-    content.each do |row|
-      begin
-        HistoricalEmissions::Record.create!(record_attributes(row))
-      rescue ActiveRecord::RecordInvalid => invalid
-        STDERR.puts "Error importing #{row.to_s.chomp}: #{invalid}"
-      end
+  def import_records(content, filepath)
+    import_each_with_logging(content, filepath) do |row|
+      HistoricalEmissions::Record.create!(record_attributes(row))
     end
   end
 end
