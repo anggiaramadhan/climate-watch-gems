@@ -5,13 +5,10 @@ module DataUploader
 
       result = yield
 
-      log.details['errors'] = result.errors if result.errors&.any?
-
-      # if any missing header error that means no data was imported
-      if result.errors&.any? { |e| e[:type] == :missing_header }
-        log.failed!
+      if result.respond_to?(:errors)
+        log.details['errors'] = result.errors if result.errors&.any?
+        any_missing_header?(result) ? log.failed! : log.finished!
       else
-        # mark as finished even if not critical errors during import
         log.finished!
       end
     rescue StandardError => e
@@ -40,6 +37,10 @@ module DataUploader
         msg: error
       }]
       job.failed!
+    end
+
+    def any_missing_header?(result)
+      result.errors&.any? { |e| e[:type] == :missing_header }
     end
   end
 end
