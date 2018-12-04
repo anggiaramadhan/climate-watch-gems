@@ -1,18 +1,21 @@
 module DataUploader
   module WithJobLogging
     def log_job(jid, section_id, admin)
-      create_job_log(jid, section_id, admin) unless job_log(jid)
-      yield
-      mark_job_as_finished(jid)
+      log = create_job_log(jid, section_id, admin) unless job_log(jid)
+
+      result = yield
+
+      if result.respond_to?(:errors)
+        log.details['errors'] = result.errors if result.errors&.any?
+        any_missing_header?(result) ? log.failed! : log.finished!
+      else
+        log.finished!
+      end
     rescue StandardError => e
       mark_job_as_failed(jid, e)
     end
 
-    def log_failed_job(jid, section_id)
-      create_job_log(jid, section_id) unless job_log(jid)
-      yield
-      mark_job_as_failed(jid)
-    end
+    private
 
     def create_job_log(jid, section_id, admin)
       DataUploader::WorkerLog.create(
@@ -27,15 +30,17 @@ module DataUploader
       DataUploader::WorkerLog.find_by(jid: jid)
     end
 
-    def mark_job_as_finished(jid)
-      job_log(jid).finished!
-    end
-
     def mark_job_as_failed(jid, error)
       job = job_log(jid)
+      job.details['errors'] = [{
+        type: :error,
+        msg: error
+      }]
       job.failed!
-      job.error = error
-      job.save!
+    end
+
+    def any_missing_header?(result)
+      result.errors&.any? { |e| e[:type] == :missing_header }
     end
   end
 end

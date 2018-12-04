@@ -1,36 +1,30 @@
 module Locations
   class ImportLocationMembers
+    include ClimateWatchEngine::CSVImporter
+
+    headers :iso_code3, :parent_iso_code3
+
     def call
-      import_records(S3CSVReader.read(Locations.location_groupings_filepath))
+      return unless valid_headers?(csv, Locations.location_groupings_filepath, headers)
+
+      ActiveRecord::Base.transaction do
+        import_records
+      end
     end
 
     private
 
-    # rubocop:disable Lint/RedundantWithIndex
-    def import_records(content)
-      content.each.with_index(2) do |row|
-        iso_code3 = iso_code3(row)
-        parent_iso_code3 = parent_iso_code3(row)
-        member = iso_code3 && Location.find_by_iso_code3(iso_code3)
-        location = parent_iso_code3 &&
-          Location.find_by_iso_code3(parent_iso_code3)
-        if location && member
-          LocationMember.find_or_create_by(
-            location_id: location.id, member_id: member.id
-          )
-        else
-          Rails.logger.warn "Unable to create member #{row}"
-        end
+    def csv
+      @csv ||= S3CSVReader.read(Locations.location_groupings_filepath)
+    end
+
+    def import_records
+      import_each_with_logging(csv, Locations.location_groupings_filepath) do |row|
+        LocationMember.find_or_create_by!(
+          location: Location.find_by_iso_code3(row[:iso_code3]&.upcase),
+          member: Location.find_by_iso_code3(row[:parent_iso_code3]&.upcase)
+        )
       end
-    end
-    # rubocop:enable Lint/RedundantWithIndex
-
-    def iso_code3(row)
-      row[:iso_code3] && row[:iso_code3].upcase
-    end
-
-    def parent_iso_code3(row)
-      row[:parent_iso_code3] && row[:parent_iso_code3].upcase
     end
   end
 end
