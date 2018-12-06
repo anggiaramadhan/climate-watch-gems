@@ -27,6 +27,7 @@ module DataUploader
 
       def validate_content_type_against_csv(params, callbacks)
         permitted_mime_types = ['text/csv', 'text/comma-separated-values',
+                                'application/vnd.ms-excel',
                                 'application/csv', 'text/plain']
         return if permitted_mime_types.include?(params[:datafile].content_type)
         callbacks[:datafile_wrong_content_type].call
