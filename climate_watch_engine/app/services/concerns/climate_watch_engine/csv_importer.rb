@@ -14,11 +14,12 @@ module ClimateWatchEngine
       end
     end
 
-    def valid_headers?(csv, filename, headers)
+    def valid_headers?(csv, filepath, headers)
       (headers - csv.headers).each do |value|
-        msg = "#{File.basename(filename)}: Missing header #{value}"
+        filename = File.basename(filepath)
+        msg = "#{filename}: Missing header #{value}"
         STDERR.puts msg
-        add_error(:missing_header, msg: msg, row: 1)
+        add_error(:missing_header, msg: msg, filename: filename, row: 1)
       end.empty?
     end
 
