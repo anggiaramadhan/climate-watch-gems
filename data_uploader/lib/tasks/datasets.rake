@@ -60,14 +60,14 @@ namespace :db do
           next unless datasets.any?
 
           puts "[Platform: #{platform_name}, section: #{section_name}] Removing obsolete datasets:"
-          datasets.each { |d| puts d.name; d.delete }
+          datasets.each { |d| puts d.name; d.destroy }
         end
       end
     end
 
     task clear_all: :environment do
-      DataUploader::WorkerLog.delete_all
-      DataUploader::Dataset.delete_all
+      DataUploader::WorkerLog.destroy_all
+      DataUploader::Dataset.destroy_all
     end
   end
 end

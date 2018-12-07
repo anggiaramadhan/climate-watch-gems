@@ -46,12 +46,12 @@ namespace :db do
           )
         next unless sections.any?
         puts "[Platform: #{platform_name}] Removings obsolete sections:"
-        sections.each { |s| puts s.name; s.delete }
+        sections.each { |s| puts s.name; s.destroy }
       end
     end
 
     task clear_all: 'db:datasets:clear_all' do
-      DataUploader::Section.delete_all
+      DataUploader::Section.destroy_all
     end
   end
 end
