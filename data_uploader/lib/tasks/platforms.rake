@@ -22,11 +22,11 @@ namespace :db do
       new_names = config['platforms'].map { |p| p['name'] }
       new_names.each { |name| old_names.delete(name) }
       puts "Removing obsolete platforms: #{old_names.to_a.join(',')}"
-      DataUploader::Platform.where(name: old_names.to_a).delete_all
+      DataUploader::Platform.where(name: old_names.to_a).destroy_all
     end
 
     task clear_all: 'db:sections:clear_all' do
-      DataUploader::Platform.delete_all
+      DataUploader::Platform.destroy_all
     end
   end
 end
