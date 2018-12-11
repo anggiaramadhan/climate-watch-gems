@@ -6,7 +6,7 @@ $(document).ready(function () {
     var modalText = $(this).data('modal-text');
     var modalTitle = $(this).data('modal-title');
 
-    var html = `<div title='${modalTitle}' style="padding: 10px;"><p>${modalText}</p></div>`;
+    var html = `<div title='${modalTitle}' style="overflow: auto; padding: 10px;"><p>${modalText}</p></div>`;
 
     $(html).dialog({
       appendTo: "body",
@@ -14,6 +14,7 @@ $(document).ready(function () {
       closeText: null,
       width: 'auto',
       maxWidth: 800,
+      maxHeight: 600,
       buttons: {
         OK() {
           $(this).dialog('close').remove();
