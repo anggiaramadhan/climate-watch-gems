@@ -42,9 +42,9 @@ module ClimateWatchEngine
 
     def with_logging(filepath, row_index)
       yield
-    rescue ActiveRecord::RecordInvalid => invalid
+    rescue StandardError => error
       filename = File.basename(filepath)
-      msg = "#{filename}: Error importing row #{row_index}: #{invalid}"
+      msg = "#{filename}: Error importing row #{row_index}: #{error}"
       STDERR.puts msg
       add_error(:invalid_row, msg: msg, row: row_index, filename: filename)
     end
