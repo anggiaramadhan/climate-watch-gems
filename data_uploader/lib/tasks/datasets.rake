@@ -15,7 +15,7 @@ namespace :db do
 
           dataset_names = section_props['datasets']
           dataset_names.each do |dataset_name|
-            next if DataUploader::Dataset.find_by(name: dataset_name)
+            next if section.datasets.find_by(name: dataset_name)
 
             DataUploader::Dataset.create(name: dataset_name, section: section)
             cnt += 1
