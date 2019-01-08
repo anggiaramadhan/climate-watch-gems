@@ -82,15 +82,7 @@ module Locations
     def create_or_update(attributes)
       iso_code3 = attributes[:iso_code3]
       location = Location.find_or_initialize_by(iso_code3: iso_code3)
-      location.assign_attributes(attributes)
-
-      op = location.new_record? ? 'CREATE' : 'UPDATE'
-
-      if location.save
-        Rails.logger.debug "#{op} OK #{iso_code3}"
-      else
-        Rails.logger.error "#{op} FAILED #{iso_code3}"
-      end
+      location.update_attributes!(attributes)
     end
   end
 end

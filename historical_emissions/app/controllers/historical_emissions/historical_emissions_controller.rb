@@ -43,7 +43,7 @@ module HistoricalEmissions
     def meta
       render(
         json: HistoricalEmissionsMetadata.new(
-          merged_records(grouped_records),
+          fetch_meta_data_sources,
           fetch_meta_sectors,
           ::HistoricalEmissions::Gas.all,
           ::HistoricalEmissions::Gwp.all,
@@ -59,6 +59,15 @@ module HistoricalEmissions
       return ::HistoricalEmissions::Sector.all if deeply_nested_sectors?
 
       ::HistoricalEmissions::Sector.first_and_second_level
+    end
+
+    def fetch_meta_data_sources
+      ::HistoricalEmissions::DataSource.all.map do |source|
+        {
+          id: source.id,
+          name: source.name
+        }.merge(data_sources_hash[source.id] || {})
+      end
     end
 
     def index_params
@@ -80,8 +89,8 @@ module HistoricalEmissions
       params.fetch(:deeply_nested_sectors, 'true') == 'true'
     end
 
-    def grouped_records
-      ::HistoricalEmissions::Record.
+    def data_sources_hash
+      @data_sources_hash ||= ::HistoricalEmissions::Record.
         select(
           <<-SQL
             data_source_id,
@@ -95,16 +104,6 @@ module HistoricalEmissions
         as_json.
         map { |h| [h['data_source_id'], h.symbolize_keys.except(:id)] }.
         to_h
-    end
-
-    def merged_records(records)
-      ::HistoricalEmissions::DataSource.
-        all.map do |source|
-          {
-            id: source.id,
-            name: source.name
-          }.merge(records[source.id])
-        end
     end
   end
 end

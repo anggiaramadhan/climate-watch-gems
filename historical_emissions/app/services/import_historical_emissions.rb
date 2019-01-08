@@ -23,7 +23,6 @@ class ImportHistoricalEmissions
     HistoricalEmissions::Sector.delete_all
     HistoricalEmissions::Gas.delete_all
     HistoricalEmissions::Record.delete_all
-    HistoricalEmissions::Record.delete_all
   end
 
   def meta_sectors_csv
