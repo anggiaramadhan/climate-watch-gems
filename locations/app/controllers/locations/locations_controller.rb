@@ -14,7 +14,7 @@ module Locations
       ).includes(:members).order(:wri_standard_name)
 
       render json: locations,
-             each_serializer: LocationMicroSerializer,
+             each_serializer: LocationSerializer,
              topojson: params.key?(:topojson)
     end
   end

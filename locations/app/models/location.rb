@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Location < ApplicationRecord
-  LOCATION_TYPES = %w[COUNTRY REGION GROUP PROVINCE TERRITORY STATE].freeze
+  LOCATION_TYPES = %w[COUNTRY REGION GROUP PROVINCE TERRITORY STATE REGENCY].freeze
   has_many :location_members, dependent: :destroy
   has_many :members, through: :location_members
 
