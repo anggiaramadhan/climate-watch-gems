@@ -23,8 +23,8 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'active_model_serializers', '~> 0.10.0'
   s.add_dependency 'aws-sdk-s3', '~> 1'
-  s.add_dependency 'climate_watch_engine', '~> 1.4.0'
-  s.add_dependency 'cw_locations', '~> 1.4.0'
+  s.add_dependency 'climate_watch_engine', '~> 1.4.3'
+  s.add_dependency 'cw_locations', '~> 1.4.1'
   s.add_dependency 'pg'
   s.add_dependency 'rails', '~> 5.2.0'
 
