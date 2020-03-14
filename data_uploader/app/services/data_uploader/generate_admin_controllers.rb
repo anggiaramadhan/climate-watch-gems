@@ -12,10 +12,11 @@ module DataUploader
       content['platforms'].each do |platform|
         @platform = platform['name']
         raise 'Platform missing' unless @platform
-        @menu = platform['display_name'] || @platform.titleize
+        # @menu = platform['display_name'] || @platform.titleize
         platform['sections'].each do |section|
           @section = section['name']
           raise 'Section missing' unless @section
+          @menu = section['menu']
           @importer = section['importer']
           next unless @importer.present?
           folder = Rails.root + 'app/admin/' + @platform
